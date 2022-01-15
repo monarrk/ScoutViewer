@@ -17,8 +17,11 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import android.widget.Toast;
+
+import org.json.JSONException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,9 +29,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//Environment.getExternalStorageDirectory()
+
+
         //make main shared directory
-        File mainDir = new File(getFilesDir() + "/singularity2022");
+/*        Log.e("MainActivity", getFilesDir().getAbsolutePath());
+        File mainDir = new File(getFilesDir().getAbsolutePath() + "/singularity2022");
         if(!mainDir.exists()) {
             Toast.makeText(getApplicationContext(),"Main directory does not exist, creating...",
                     Toast.LENGTH_LONG).show();
@@ -40,6 +45,18 @@ public class MainActivity extends AppCompatActivity {
         }
         else {
             Toast.makeText(this,"Failed to create Directory",
+                    Toast.LENGTH_LONG).show();
+        }
+
+*/
+        Files.write(this, "/test.json", "{\"int\":1}");
+
+        File test = new File(getFilesDir().getAbsolutePath() + "/test.txt");
+        if(test.exists()) {
+            Toast.makeText(getApplication(),"test.txt exists",
+                    Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(getApplication(),"test.txt not exists",
                     Toast.LENGTH_LONG).show();
         }
     }
