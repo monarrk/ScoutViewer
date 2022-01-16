@@ -1,27 +1,13 @@
 package singularity.scoutviewer;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-
-import android.content.Context;
 import android.os.Bundle;
-import android.os.Environment;
-import android.util.Log;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.nio.charset.StandardCharsets;
 import android.widget.Toast;
-
-import org.json.JSONException;
+import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,34 +16,36 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        TextView textView = findViewById(R.id.textView);
+        Spinner gameSelector = findViewById(R.id.gameSelector);
+        final String PATH = getFilesDir().getAbsolutePath() + "/Singularity2022";
 
-        //make main shared directory
-/*        Log.e("MainActivity", getFilesDir().getAbsolutePath());
-        File mainDir = new File(getFilesDir().getAbsolutePath() + "/singularity2022");
-        if(!mainDir.exists()) {
-            Toast.makeText(getApplicationContext(),"Main directory does not exist, creating...",
-                    Toast.LENGTH_LONG).show();
-            mainDir.mkdirs();
-        }
-        if(mainDir.exists()) {
-            Toast.makeText(getApplication(),"Directory created",
-                    Toast.LENGTH_LONG).show();
-        }
-        else {
-            Toast.makeText(this,"Failed to create Directory",
-                    Toast.LENGTH_LONG).show();
-        }
+        // make main shared directory wherever PATH says to make it
+        Files.mkDir(PATH);
 
-*/
-        Files.write(this, "/test.json", "{\"int\":1}");
+        // write to a json file
+        //Files.write(PATH + "/test.json", "{\"int\":1}");
 
-        File test = new File(getFilesDir().getAbsolutePath() + "/test.txt");
-        if(test.exists()) {
-            Toast.makeText(getApplication(),"test.txt exists",
-                    Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(getApplication(),"test.txt not exists",
-                    Toast.LENGTH_LONG).show();
-        }
+        // read the match numbers/ids and populate the spinner
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, Files.listWith(PATH, false,
+                false));
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        gameSelector.setAdapter(adapter);
+
+        // looks at when the spinner gets set
+        gameSelector.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int index, long l) {
+                // basically magic
+                textView.setText(Files.read(PATH + Files.listWith(PATH,
+                        true, true, index)));
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                Toast.makeText(getApplicationContext(),"No game selected",
+                        Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }
