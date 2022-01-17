@@ -11,6 +11,14 @@ public class Match {
         }
     }
 
+    public int getMatchNum() {
+        return team[0].getMatchNum();
+    }
+
+    public String toString()  {
+        return Integer.toString(getMatchNum());
+    }
+
     public int getBlueTotal() {
         int total = 0;
         for (int i = 0; i < team.length; i++) {

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Scout Viewer</string>
+    <string name="clear_data">Clear Data</string>
 </resources>

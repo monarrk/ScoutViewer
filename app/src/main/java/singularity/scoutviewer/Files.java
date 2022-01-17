@@ -40,8 +40,7 @@ public class Files {
                 text.append('\n');
             }
             br.close();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             //add error handling here
         }
         return text.toString();
@@ -53,7 +52,7 @@ public class Files {
         // make a new directory with the given path
         File dir = new File(path);
         // check if the directory already exists
-        if(!dir.exists()) {
+        if (!dir.exists()) {
             Log.i("Files", "Directory does not exist, creating " + path);
             dir.mkdirs();
             // make the directory and any missing parent directories if they do not exist
@@ -100,5 +99,27 @@ public class Files {
         String[] files = Files.listWith(path, slash, extension);
         return files[index];
         //return the file name at the given index with a "/" before it
+    }
+
+    public static void delete(String path) {
+        File file = new File(path);
+        if (file.delete()) {
+            Log.i("Files", "Deleted the file: " + file.getName());
+        } else {
+            Log.e("Files", "Failed to delete the file " + file.getName());
+        }
+    }
+
+
+    static void deleteFolder(String path) {
+        File file = new File(path);
+        for (File subFile : file.listFiles()) {
+            if (subFile.isDirectory()) {
+                deleteFolder(subFile.getPath());
+            } else {
+                subFile.delete();
+            }
+        }
+        file.delete();
     }
 }
