@@ -78,4 +78,8 @@ public class Team {
 
         return total;
     }
+
+    public String toString() {
+        return Integer.toString(getTeamNum());
+    }
 }

@@ -31,7 +31,47 @@ public class Match {
         return total;
     }
 
-    public Team getWinners() {
-        if (getBlueTotal() > )
+    public String getWinners() {
+        if (getBlueTotal() > getRedTotal()) {
+            return "blue";
+        } else if (getBlueTotal() < getRedTotal()) {
+            return "red";
+        } else {
+            return "tie";
+        }
+    }
+
+    public Team[] getBlueAlliance() {
+        int i = 0;
+        for (int j = 0; j < team.length; j++) {
+            if (team[i].getIsBlue()) {
+                i++;
+            }
+        }
+        Team[] blue = new Team[i];
+        i = 0;
+        for (int j = 0; j < team.length; j++) {
+            if (team[i].getIsBlue()) {
+                blue[i++] = team[j];
+            }
+        }
+        return blue;
+    }
+
+    public Team[] getRedAlliance() {
+        int i = 0;
+        for (int j = 0; j < team.length; j++) {
+            if (!team[i].getIsBlue()) {
+                i++;
+            }
+        }
+        Team[] red = new Team[i];
+        i = 0;
+        for (int j = 0; j < team.length; j++) {
+            if (!team[i].getIsBlue()) {
+                red[i++] = team[j];
+            }
+        }
+        return red;
     }
 }
