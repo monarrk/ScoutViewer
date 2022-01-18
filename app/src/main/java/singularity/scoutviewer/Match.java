@@ -82,4 +82,29 @@ public class Match {
         }
         return red;
     }
+
+    public String displayMatch() {
+        String blue = "";
+        String red = "";
+
+        String output = "Match #" + this +
+                      "\nWinners: " + getWinners() +
+                      "\nScore:" +
+                      "\nBlue: " + getBlueTotal() +
+                      "\nRed: " + getRedTotal() +
+                      "\n\n";
+
+        for (int i = 0; i < team.length; i++) {
+            if (team[i].getIsBlue()) {
+                blue += team[i] + "\n";
+            } else {
+                red += team[i] + "\n";
+            }
+        }
+        output += "Blue Alliance:\n" +
+                blue +
+                "\nRed Alliance:\n" +
+                red;
+        return output;
+    }
 }

@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Scout Viewer</string>
     <string name="clear_data">Clear Data</string>
+    <string name="no_file_selected">No file selected</string>
 </resources>

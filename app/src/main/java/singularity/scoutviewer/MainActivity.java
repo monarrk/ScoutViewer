@@ -12,6 +12,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.view.View;
 
+import org.json.JSONException;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -23,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
         Spinner gameSelector = findViewById(R.id.gameSelector);
         EditText password = findViewById(R.id.password);
         Button clearBtn = findViewById(R.id.clearBtn);
+        Button reloadBtn = findViewById(R.id.reloadBtn);
         final String PATH = getFilesDir().getAbsolutePath() + "/Singularity2022";
         final String PASSWORD = "singularity";
         // doesn't need to be secure
@@ -31,7 +34,21 @@ public class MainActivity extends AppCompatActivity {
         Files.mkDir(PATH);
 
         // write to a json file
-        Files.write(PATH + "/test.json", "{\"int\":1}");
+        Files.mkDir(PATH + "01-16-2022:match#1");
+            Files.write(PATH + "5066.json",
+                        "{\n" +
+                            "  \"matchNum\":            1,\n" +
+                            "  \"teamNum\":          5066,\n" +
+                            "  \"isBlue\":           true,\n" +
+                            "  \"startingPos\":         1,\n" +
+                            "\n" +
+                            "  \"taxi\":             true,\n" +
+                            "  \"autoLowerHub\":        5,\n" +
+                            "  \"autoUpperHub\":        2,\n" +
+                            "  \"teleLowerHub\":        5,\n" +
+                            "  \"teleUpperHub\":       12,\n" +
+                            "  \"hanger\":              3\n" +
+                            "}");
 
         reloadSpinner(PATH, gameSelector);
 
@@ -39,8 +56,16 @@ public class MainActivity extends AppCompatActivity {
         gameSelector.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> adapterView, View view, int index, long l) {
                 // basically magic
-                textView.setText(Files.read(PATH + Files.listWith(PATH,
-                        true, true, index)));
+                //try {
+                    //Match match = new Match(PATH + Files.listWith(PATH, true,
+                            //true, index));
+                    //textView.setText(match.displayMatch());
+                    textView.setText(Files.read(PATH + "5066.json"));
+                //} catch (JSONException e) {
+                    //e.printStackTrace();
+                    //textView.setText("File not found");
+                //}
+
             }
 
             public void onNothingSelected(AdapterView<?> adapterView) {
@@ -75,8 +100,14 @@ public class MainActivity extends AppCompatActivity {
                         .show();
             } else {
                 Toast.makeText(getApplicationContext(),"Incorrect Password",
-                        Toast.LENGTH_LONG).show();
+                        Toast.LENGTH_SHORT).show();
             }
+        });
+
+        reloadBtn.setOnClickListener(v -> {
+            reloadSpinner(PATH, gameSelector);
+            Toast.makeText(getApplicationContext(),"Selector Reloaded",
+                    Toast.LENGTH_SHORT).show();
         });
     }
 

@@ -54,7 +54,9 @@ public class Files {
         // check if the directory already exists
         if (!dir.exists()) {
             Log.i("Files", "Directory does not exist, creating " + path);
-            dir.mkdirs();
+            if (!dir.mkdirs()) {
+                Log.e("Files", "Failed to create " + path);
+            }
             // make the directory and any missing parent directories if they do not exist
             // also give feedback if it doesn't exist
 
@@ -83,7 +85,9 @@ public class Files {
         }
         if (!extension) {
             for (int i = 0; i < files.length; i++) {
-                files[i] = files[i].substring(0, files[i].indexOf('.'));
+                if (files[i].indexOf('.') != -1) {
+                    files[i] = files[i].substring(0, files[i].indexOf('.'));
+                }
             }
         }
         return files;
@@ -109,7 +113,6 @@ public class Files {
             Log.e("Files", "Failed to delete the file " + file.getName());
         }
     }
-
 
     static void deleteFolder(String path) {
         File file = new File(path);
