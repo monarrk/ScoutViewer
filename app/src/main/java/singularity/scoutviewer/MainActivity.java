@@ -1,8 +1,13 @@
 package singularity.scoutviewer;
 
+import static android.content.pm.PackageManager.PERMISSION_DENIED;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+
 import android.app.AlertDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -14,6 +19,8 @@ import android.view.View;
 
 import org.json.JSONException;
 
+import java.security.Permission;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -21,17 +28,25 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        if (ContextCompat.checkSelfPermission(getApplicationContext(),
+                "android.permission.WRITE_EXTERNAL_STORAGE") == PERMISSION_DENIED) {
+            //registerForActivityResult()
+        }
+
         TextView textView = findViewById(R.id.textView);
         Spinner gameSelector = findViewById(R.id.gameSelector);
         EditText password = findViewById(R.id.password);
         Button clearBtn = findViewById(R.id.clearBtn);
         Button reloadBtn = findViewById(R.id.reloadBtn);
         final String PATH = getFilesDir().getAbsolutePath() + "/Singularity2022";
+        //final String PATH = "dataTest/Singularity";
         final String PASSWORD = "singularity";
         // doesn't need to be secure
 
         // make main shared directory wherever PATH says to make it
         Files.mkDir(PATH);
+
+        Log.e("path", PATH);
 
         // write to a json file
         Files.mkDir(PATH + "01-16-2022:match#1");

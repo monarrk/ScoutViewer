@@ -63,7 +63,7 @@ public class Files {
             if (dir.exists()) {
                 Log.i("Files", "Directory created successfully");
             } else {
-                Log.i("Files", "Failed to create directory" + path);
+                Log.e("Files", "Failed to create directory" + path);
             }
             // check to make sure the directory was created
         }
